@@ -18,8 +18,8 @@ def extract_data(soup, class_name):
     return [element.text.strip() for element in elements]
 
 
-def parse_classes():
-    url = 'https://catalog.apps.asu.edu/catalog/classes/classlist?campusOrOnlineSelection=A&catalogNbr=230&honors=F&promod=F&searchType=all&subject=CSE&term=2241'
+def parse_classes(subject: str, course_number: int, term: int):
+    url = f'https://catalog.apps.asu.edu/catalog/classes/classlist?campusOrOnlineSelection=A&catalogNbr={course_number}&honors=F&promod=F&searchType=all&subject={subject}&term={term}'
     soup = get_dynamic_soup(url)
     class_name = extract_data(soup, 'course')
     class_id = extract_data(soup, 'number')
@@ -33,7 +33,7 @@ def parse_classes():
     seats = [seat.replace('\xa0open seats', '') for seat in seats]
 
     class_information = []
-    for class_name,class_id , instructor, day, start_time, end_time, location, date, seat in zip(class_name, class_id, instructors, days, start_times, end_times, locations, dates, seats):
+    for class_name, class_id, instructor, day, start_time, end_time, location, date, seat in zip(class_name, class_id, instructors, days, start_times, end_times, locations, dates, seats):
         class_information.append({
             'class_name': class_name,
             'class_id': class_id,
@@ -45,6 +45,6 @@ def parse_classes():
             'date': date,
             'seat': seat,
         })
-    print(class_information)
-
-parse_classes()
+    # remove the first element because it is the header
+    class_information.pop(0)
+    return class_information
