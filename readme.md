@@ -32,7 +32,7 @@ To use the ASU Course Scraper API, follow these steps:
 
 1. Clone the repository
 ```bash
-git clone https://github.com/Smit2553/asu-schedule-maker.git
+git clone https://github.com/Smit2553/asu-scraper-api.git
 ```
 2. Install dependencies
 ```bash
