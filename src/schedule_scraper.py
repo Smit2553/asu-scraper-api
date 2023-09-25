@@ -1,14 +1,20 @@
 import asyncio
+from typing import Dict
+
 from bs4 import BeautifulSoup
 from playwright.async_api import async_playwright
 
 
-async def get_dynamic_soup(url: str) -> BeautifulSoup:
+async def get_dynamic_soup(url: str) -> dict[str, str] | BeautifulSoup:
     async with async_playwright() as p:
         browser = await p.chromium.launch()
         page = await browser.new_page()
         await page.goto(url)
-        await page.wait_for_selector("div#class-results")
+        try:
+            await page.wait_for_selector("div#class-results", timeout=10000)
+        except Exception as e:
+            await browser.close()
+            return {"error": "Uncaught exception: " + str(e)}
         content = await page.content()
         soup = BeautifulSoup(content, "html.parser")
         await browser.close()
@@ -23,6 +29,8 @@ async def extract_data(soup, class_name):
 async def parse_classes(subject: str, course_number: int, term: int):
     url = f'https://catalog.apps.asu.edu/catalog/classes/classlist?campusOrOnlineSelection=A&catalogNbr={course_number}&honors=F&promod=F&searchType=all&subject={subject}&term={term}'
     soup = await get_dynamic_soup(url)
+    if isinstance(soup, Dict):
+        return soup
     class_name = await extract_data(soup, 'course')
     class_id = await extract_data(soup, 'number')
     instructors = await extract_data(soup, 'instructor')
