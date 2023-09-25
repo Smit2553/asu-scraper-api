@@ -28,7 +28,8 @@ To use the ASU Course Scraper API, follow these steps:
    - `/schedule`: Required parameters are subject, course_number and term
    - Example: `127.0.0.1:8000/schedule?subject=cse&course_number=240&term=2241`
    - The format for term is `2YYX` where YY is the last 2 of the current year and X is the semester number (1 for spring, 4 for summer, 7 for fall)
-
+   - Where the subject is `CSE`, the course number is `240` and the term is `Spring 2024`
+   
 ## Running
 
 1. Clone the repository
