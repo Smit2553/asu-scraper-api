@@ -26,6 +26,7 @@ To use the ASU Course Scraper API, follow these steps:
 2. **Endpoints**:
 
    - `/schedule`: Required parameters are subject, course_number and term
+   - Example: `127.0.0.1:8000/schedule?subject=cse&course_number=240&term=2241`
    - The format for term is `2YYX` where YY is the last 2 of the current year and X is the semester number (1 for spring, 4 for summer, 7 for fall)
 
 ## Running
@@ -36,6 +37,7 @@ git clone https://github.com/Smit2553/asu-scraper-api.git
 ```
 2. Install dependencies
 ```bash
+conda create --name asu-scraper-api python=3.10
 conda install --file requirements.txt
 ```
 3. Run the server
