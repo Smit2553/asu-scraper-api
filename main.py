@@ -16,7 +16,6 @@ async def get_schedule(subject: str, course_number: int, term: int):
     return schedule
 
 
-
 if __name__ == "__main__":
     uvicorn.run(
         "test:app",
